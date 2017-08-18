@@ -7,11 +7,13 @@ import { WebService } from './web.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { PageComponent } from './page/page.component';
+import { MarkdownPipe } from './markdown.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PageComponent
+    PageComponent,
+    MarkdownPipe
   ],
   imports: [
     BrowserModule,
