@@ -1,4 +1,11 @@
 <div class="page" *ngIf="page">
-  <h1>{{page.name}}</h1>
+  <h1>{{page.title}}</h1>
   <div class="content" [innerHTML]="page.content | markdown"></div>
+</div>
+<div class="not-found" *ngIf="notFound">
+  <h1>{{webName}}.{{pageName}}</h1>
+  <p>
+    This page does not exist yet. You are welcome to
+    <a routerLink="/wiki/{{webName}}/{{pageName}}/edit">create it</a>.
+  </p>
 </div>
