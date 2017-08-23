@@ -1,6 +1,9 @@
 <div class="page" *ngIf="page">
   <h1>{{page.title}}</h1>
   <div class="content" [innerHTML]="page.content | markdown"></div>
+  <nav class="nav d-inline-flex">
+    <a class="nav-link" routerLink="/wiki/{{webName}}/{{pageName}}/edit">Edit</a>
+  </nav>
 </div>
 <div class="not-found" *ngIf="notFound">
   <h1>{{webName}}.{{pageName}}</h1>
