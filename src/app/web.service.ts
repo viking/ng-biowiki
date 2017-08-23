@@ -30,13 +30,13 @@ export class WebService {
       map(response => response.json() as Web[]);
   }
 
-  getPages(webName: String): Observable<Page[]> {
+  getPages(webName: string): Observable<Page[]> {
     let url = `${this.websUrl}/${webName}`;
     return this.http.get(url).
       map(response => response.json() as Page[]);
   }
 
-  getPage(webName: String, pageName: String): Observable<PageResult> {
+  getPage(webName: string, pageName: string): Observable<PageResult> {
     let url = `${this.websUrl}/${webName}/${pageName}`;
     return this.http.get(url).
       map(response => {
@@ -51,5 +51,15 @@ export class WebService {
           throw new Error('bad response');
         }
       });
+  }
+
+  createPage(webName: string, page: Page): Observable<any> {
+    let url = `${this.websUrl}/${webName}`;
+    return this.http.post(url, JSON.stringify(page));
+  }
+
+  updatePage(webName: string, page: Page): Observable<any> {
+    let url = `${this.websUrl}/${webName}/${page.name}`;
+    return this.http.put(url, JSON.stringify(page));
   }
 }
