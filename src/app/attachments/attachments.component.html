@@ -1,0 +1,7 @@
+<h1>Attachments for {{webName}}.{{pageName}}</h1>
+
+<ul>
+  <li *ngFor="let attachment of attachments">
+    <a [href]="attachment.url()" target="_blank">{{attachment.fileName}}</a>
+  </li>
+</ul>

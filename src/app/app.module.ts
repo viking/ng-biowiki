@@ -7,18 +7,21 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { WebService } from './web.service';
 import { PageService } from './page.service';
+import { AttachmentService } from './attachment.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { PageComponent } from './page/page.component';
 import { MarkdownPipe } from './markdown.pipe';
 import { PageFormComponent } from './page-form/page-form.component';
+import { AttachmentsComponent } from './attachments/attachments.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageComponent,
     MarkdownPipe,
-    PageFormComponent
+    PageFormComponent,
+    AttachmentsComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,8 @@ import { PageFormComponent } from './page-form/page-form.component';
   ],
   providers: [
     WebService,
-    PageService
+    PageService,
+    AttachmentService
   ],
   bootstrap: [AppComponent]
 })
