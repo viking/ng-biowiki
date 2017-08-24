@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { WebService } from './web.service';
+import { PageService } from './page.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { PageComponent } from './page/page.component';
@@ -26,7 +27,10 @@ import { PageFormComponent } from './page-form/page-form.component';
     NgbModule.forRoot(),
     AppRoutingModule,
   ],
-  providers: [WebService],
+  providers: [
+    WebService,
+    PageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

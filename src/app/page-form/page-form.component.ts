@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 
-import { WebService, PageResult, PageResultType } from '../web.service';
+import { PageService, PageResult, PageResultType } from '../page.service';
 import { Page } from '../page';
 
 @Component({
@@ -19,7 +19,7 @@ export class PageFormComponent implements OnInit {
   isNew: boolean;
 
   constructor(
-    private webService: WebService,
+    private pageService: PageService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location
@@ -30,7 +30,7 @@ export class PageFormComponent implements OnInit {
       switchMap((params: ParamMap) => {
         this.webName = params.get('webName');
         this.pageName = params.get('pageName');
-        return this.webService.getPage(this.webName, this.pageName);
+        return this.pageService.getPage(this.webName, this.pageName);
       }).
       subscribe(result => {
         switch (result.type) {
@@ -59,14 +59,14 @@ export class PageFormComponent implements OnInit {
   }
 
   private createPage(): void {
-    this.webService.createPage(this.webName, this.page).
+    this.pageService.createPage(this.webName, this.page).
       subscribe(result => {
         this.router.navigate(['/wiki', this.webName, this.pageName]);
       });
   }
 
   private updatePage(): void {
-    this.webService.updatePage(this.webName, this.page).
+    this.pageService.updatePage(this.webName, this.page).
       subscribe(result => {
         this.router.navigate(['/wiki', this.webName, this.pageName]);
       });
