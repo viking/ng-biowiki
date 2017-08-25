@@ -1,17 +1,1 @@
-<div class="container-fluid h-100">
-  <div class="row h-100">
-    <div class="sidebar col-2">
-      <div class="p-2" *ngIf="webs">
-        <h3>Webs</h3>
-        <ul class="webs">
-          <li *ngFor="let web of webs">
-            <a routerLink="/wiki/{{web.name}}/WebHome">{{web.name}}</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="main col-10">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-</div>
+<router-outlet></router-outlet>

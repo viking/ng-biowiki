@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { WebComponent } from './web/web.component';
 import { PageComponent } from './page/page.component';
 import { PageFormComponent } from './page-form/page-form.component';
 import { AttachmentsComponent } from './attachments/attachments.component';
@@ -8,10 +9,16 @@ import { AttachmentFormComponent } from './attachment-form/attachment-form.compo
 
 const routes: Routes = [
   { path: '', redirectTo: '/wiki/Main/WebHome', pathMatch: 'full' },
-  { path: 'wiki/:webName/:pageName', component: PageComponent },
-  { path: 'wiki/:webName/:pageName/edit', component: PageFormComponent },
-  { path: 'wiki/:webName/:pageName/attachments', component: AttachmentsComponent },
-  { path: 'wiki/:webName/:pageName/attachments/new', component: AttachmentFormComponent },
+  {
+    path: 'wiki/:webName',
+    component: WebComponent,
+    children: [
+      { path: ':pageName', component: PageComponent },
+      { path: ':pageName/edit', component: PageFormComponent },
+      { path: ':pageName/attachments', component: AttachmentsComponent },
+      { path: ':pageName/attachments/new', component: AttachmentFormComponent },
+    ]
+  }
 ];
 
 @NgModule({
