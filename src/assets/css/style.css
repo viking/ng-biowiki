@@ -1,0 +1,16 @@
+.grow {
+  display: flex;
+  flex: 1;
+}
+
+.grow-horiz {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.grow-vert {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
