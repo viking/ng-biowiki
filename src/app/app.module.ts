@@ -14,6 +14,7 @@ import { PageComponent } from './page/page.component';
 import { MarkdownPipe } from './markdown.pipe';
 import { PageFormComponent } from './page-form/page-form.component';
 import { AttachmentsComponent } from './attachments/attachments.component';
+import { AttachmentFormComponent } from './attachment-form/attachment-form.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AttachmentsComponent } from './attachments/attachments.component';
     PageComponent,
     MarkdownPipe,
     PageFormComponent,
-    AttachmentsComponent
+    AttachmentsComponent,
+    AttachmentFormComponent
   ],
   imports: [
     BrowserModule,

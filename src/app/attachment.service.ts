@@ -2,23 +2,14 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { TextDecoder } from 'text-encoding';
-import * as base64 from 'base-64';
+import * as convert from 'base64-arraybuffer';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/concatMap';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/of';
 
 import { environment } from '../environments/environment';
 import { Attachment } from './attachment';
-
-export enum AttachmentResultType {
-  OK,
-  NotFound,
-  Error
-}
-
-export class AttachmentResult {
-  constructor(public type: AttachmentResultType, public attachment?: Attachment) {}
-}
 
 @Injectable()
 export class AttachmentService {
@@ -35,24 +26,32 @@ export class AttachmentService {
       });
   }
 
-  getAttachment(webName: string, pageName: string, attachmentName: string): Observable<AttachmentResult> {
-    let url = `${this.websUrl}/${webName}/${pageName}/attachments/${attachmentName}`;
-    return this.http.get(url).
-      map(response => {
-        let attachment = this.process(webName, pageName, response.json());
-        return new AttachmentResult(AttachmentResultType.OK, attachment);
-      }).
-      catch(response => {
-        if (response.status == 404) {
-          let result = new AttachmentResult(AttachmentResultType.NotFound);
-          return Observable.of(result);
-        } else {
-          throw new Error('bad response');
-        }
-      });
+  createAttachment(att: Attachment): Observable<any> {
+    return this.deprocess(att).concatMap(attribs => {
+      let url = `${this.websUrl}/${att.webName}/${att.pageName}/attachments`;
+      return this.http.post(url, JSON.stringify(attribs));
+    });
   }
 
   private process(webName: string, pageName: string, attribs: any): Attachment {
     return new Attachment(webName, pageName, attribs.file_name);
+  }
+
+  private deprocess(att: Attachment): Observable<any> {
+    let attribs: any = {};
+    attribs.file_name = att.fileName;
+    if (att.data) {
+      let reader = new FileReader();
+
+      let obs = Observable.fromEvent(reader, 'loadend').
+        map((event: any) => {
+          attribs.encoded_data = convert.encode(reader.result);
+          return attribs;
+        });
+      reader.readAsArrayBuffer(att.data);
+      return obs;
+    } else {
+      return Observable.of(attribs);
+    }
   }
 }

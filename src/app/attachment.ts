@@ -1,12 +1,11 @@
 import { environment } from '../environments/environment';
 
 export class Attachment {
-  data?: Blob
-
   constructor(
     public webName: string,
     public pageName: string,
-    public fileName?: string
+    public fileName?: string,
+    public data?: Blob
   ) {}
 
   url(): string {

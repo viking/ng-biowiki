@@ -1,0 +1,11 @@
+<h1>New attachment for {{webName}}.{{pageName}}</h1>
+
+<form (ngSubmit)="onSubmit()" #attachmentForm="ngForm">
+  <div class="form-group">
+    <label for="attachment-file">File</label>
+    <input #file type="file" id="attachment-file" name="file" required />
+  </div>
+  <input class="btn btn-primary" type="submit" value="Upload"
+    [disabled]="!attachmentForm.form.valid || running" />
+  <button class="btn btn-secondary" type="button" (click)="goBack()">Cancel</button>
+</form>
