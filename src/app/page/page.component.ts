@@ -43,7 +43,7 @@ export class PageComponent implements OnInit {
         return this.pageService.getPage(this.webName, this.pageName);
       }
       return Observable.empty();
-    }).subscribe(result => {
+    }).subscribe((result: PageResult) => {
       switch (result.type) {
         case PageResultType.OK:
           this.setPage(result.page);
