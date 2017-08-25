@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/observable/empty';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/catch';
 
 import { PageService, PageResult, PageResultType } from '../page.service';
 import { Page } from '../page';
@@ -15,7 +17,7 @@ import { Page } from '../page';
 export class PageFormComponent implements OnInit {
   webName: string;
   pageName: string;
-  page = { name: '' } as Page;
+  page: Page;
   isNew: boolean;
 
   constructor(
@@ -26,24 +28,34 @@ export class PageFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.paramMap.
-      switchMap((params: ParamMap) => {
+    Observable.merge(
+      this.route.parent.paramMap,
+      this.route.paramMap
+    ).switchMap((params: ParamMap) => {
+      if (params.has('webName')) {
+        // web changed
         this.webName = params.get('webName');
+      } else if (params.has('pageName')) {
+        // page changed
         this.pageName = params.get('pageName');
+      }
+
+      if (this.webName && this.pageName) {
         return this.pageService.getPage(this.webName, this.pageName);
-      }).
-      subscribe(result => {
-        switch (result.type) {
-          case PageResultType.OK:
-            this.page = result.page;
-            this.isNew = false;
-            break;
-          case PageResultType.NotFound:
-            this.page = { name: this.pageName } as Page;
-            this.isNew = true;
-            break;
-        }
-      });
+      }
+      return Observable.empty();
+    }).subscribe((result: PageResult) => {
+      switch (result.type) {
+        case PageResultType.OK:
+          this.page = result.page;
+          this.isNew = false;
+          break;
+        case PageResultType.NotFound:
+          this.page = { name: this.pageName } as Page;
+          this.isNew = true;
+          break;
+      }
+    });
   }
 
   onSubmit(): void {
