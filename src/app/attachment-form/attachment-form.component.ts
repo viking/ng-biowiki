@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/merge';
 
 import { AttachmentService } from '../attachment.service';
 import { Attachment } from '../attachment';
@@ -27,9 +28,17 @@ export class AttachmentFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.webName = params.get('webName');
-      this.pageName = params.get('pageName');
+    Observable.merge(
+      this.route.parent.paramMap,
+      this.route.paramMap
+    ).subscribe((params: ParamMap) => {
+      if (params.has('webName')) {
+        // web changed
+        this.webName = params.get('webName');
+      } else if (params.has('pageName')) {
+        // page changed
+        this.pageName = params.get('pageName');
+      }
     });
   }
 
