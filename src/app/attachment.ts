@@ -9,6 +9,6 @@ export class Attachment {
   ) {}
 
   url(): string {
-    return `${environment.apiUrl}/webs/${this.webName}/${this.pageName}/attachments/${this.fileName}`
+    return `${environment.apiUrl}/webs/${this.webName}/pages/${this.pageName}/attachments/${this.fileName}`
   }
 }

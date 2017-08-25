@@ -25,13 +25,13 @@ export class PageService {
   constructor(private http: Http) { }
 
   getPages(webName: string): Observable<Page[]> {
-    let url = `${this.websUrl}/${webName}`;
+    let url = `${this.websUrl}/${webName}/pages`;
     return this.http.get(url).
       map(response => response.json() as Page[]);
   }
 
   getPage(webName: string, pageName: string): Observable<PageResult> {
-    let url = `${this.websUrl}/${webName}/${pageName}`;
+    let url = `${this.websUrl}/${webName}/pages/${pageName}`;
     return this.http.get(url).
       map(response => {
         let page = response.json() as Page;
@@ -48,12 +48,12 @@ export class PageService {
   }
 
   createPage(webName: string, page: Page): Observable<any> {
-    let url = `${this.websUrl}/${webName}`;
+    let url = `${this.websUrl}/${webName}/pages`;
     return this.http.post(url, JSON.stringify(page));
   }
 
   updatePage(webName: string, page: Page): Observable<any> {
-    let url = `${this.websUrl}/${webName}/${page.name}`;
+    let url = `${this.websUrl}/${webName}/pages/${page.name}`;
     return this.http.put(url, JSON.stringify(page));
   }
 }

@@ -18,7 +18,7 @@ export class AttachmentService {
   constructor(private http: Http) { }
 
   getAttachments(webName: string, pageName: string): Observable<Attachment[]> {
-    let url = `${this.websUrl}/${webName}/${pageName}/attachments`;
+    let url = `${this.websUrl}/${webName}/pages/${pageName}/attachments`;
     return this.http.get(url).
       map(response => {
         let arr = response.json();
@@ -28,7 +28,7 @@ export class AttachmentService {
 
   createAttachment(att: Attachment): Observable<any> {
     return this.deprocess(att).concatMap(attribs => {
-      let url = `${this.websUrl}/${att.webName}/${att.pageName}/attachments`;
+      let url = `${this.websUrl}/${att.webName}/pages/${att.pageName}/attachments`;
       return this.http.post(url, JSON.stringify(attribs));
     });
   }
