@@ -1,5 +1,9 @@
 export class Page {
-  name: String;
-  title?: String;
-  content?: String;
+  name: string;
+  title?: string;
+  content?: string;
+}
+
+export class PageVersion {
+  hash: string;
 }

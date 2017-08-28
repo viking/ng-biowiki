@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
@@ -15,9 +15,9 @@ import { Page } from '../page';
   styleUrls: ['./page.component.css']
 })
 export class PageComponent implements OnInit {
-  webName: string;
-  pageName: string;
-  page: Page;
+  @Input() webName: string;
+  @Input() pageName: string;
+  @Input() page: Page;
   notFound: boolean;
 
   constructor(
@@ -27,32 +27,36 @@ export class PageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    Observable.merge(
-      this.route.parent.paramMap,
-      this.route.paramMap
-    ).switchMap((params: ParamMap) => {
-      if (params.has('webName')) {
-        // web changed
-        this.webName = params.get('webName');
-      } else if (params.has('pageName')) {
-        // page changed
-        this.pageName = params.get('pageName');
-      }
+    if (this.page) {
+      this.setPage(this.page);
+    } else {
+      Observable.merge(
+        this.route.parent.paramMap,
+        this.route.paramMap
+      ).switchMap((params: ParamMap) => {
+        if (params.has('webName')) {
+          // web changed
+          this.webName = params.get('webName');
+        } else if (params.has('pageName')) {
+          // page changed
+          this.pageName = params.get('pageName');
+        }
 
-      if (this.webName && this.pageName) {
-        return this.pageService.getPage(this.webName, this.pageName);
-      }
-      return Observable.empty();
-    }).subscribe((result: PageResult) => {
-      switch (result.type) {
-        case PageResultType.OK:
-          this.setPage(result.page);
-          break;
-        case PageResultType.NotFound:
-          this.handleNotFound();
-          break;
-      }
-    });
+        if (this.webName && this.pageName) {
+          return this.pageService.getPage(this.webName, this.pageName);
+        }
+        return Observable.empty();
+      }).subscribe((result: PageResult) => {
+        switch (result.type) {
+          case PageResultType.OK:
+            this.setPage(result.page);
+            break;
+          case PageResultType.NotFound:
+            this.handleNotFound();
+            break;
+        }
+      });
+    }
   }
 
   private setPage(page: Page): void {

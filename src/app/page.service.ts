@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 
 import { environment } from '../environments/environment';
-import { Page } from './page';
+import { Page, PageVersion } from './page';
 
 export enum PageResultType {
   OK,
@@ -55,5 +55,28 @@ export class PageService {
   updatePage(webName: string, page: Page): Observable<any> {
     let url = `${this.websUrl}/${webName}/pages/${page.name}`;
     return this.http.put(url, JSON.stringify(page));
+  }
+
+  getPageVersions(webName: string, pageName: string): Observable<PageVersion[]> {
+    let url = `${this.websUrl}/${webName}/pages/${pageName}/versions`;
+    return this.http.get(url).
+      map(response => response.json() as PageVersion[]);
+  }
+
+  getPageVersion(webName: string, pageName: string, versionHash: string): Observable<PageResult> {
+    let url = `${this.websUrl}/${webName}/pages/${pageName}/versions/${versionHash}`;
+    return this.http.get(url).
+      map(response => {
+        let page = response.json() as Page;
+        return new PageResult(PageResultType.OK, page);
+      }).
+      catch(response => {
+        if (response.status == 404) {
+          let result = new PageResult(PageResultType.NotFound);
+          return Observable.of(result);
+        } else {
+          throw new Error('bad response');
+        }
+      });
   }
 }

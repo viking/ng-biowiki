@@ -16,6 +16,8 @@ import { PageFormComponent } from './page-form/page-form.component';
 import { AttachmentsComponent } from './attachments/attachments.component';
 import { AttachmentFormComponent } from './attachment-form/attachment-form.component';
 import { WebComponent } from './web/web.component';
+import { PageVersionsComponent } from './page-versions/page-versions.component';
+import { PageVersionComponent } from './page-version/page-version.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { WebComponent } from './web/web.component';
     PageFormComponent,
     AttachmentsComponent,
     AttachmentFormComponent,
-    WebComponent
+    WebComponent,
+    PageVersionsComponent,
+    PageVersionComponent
   ],
   imports: [
     BrowserModule,

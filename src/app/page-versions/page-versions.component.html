@@ -1,0 +1,7 @@
+<h1>Versions of {{webName}}.{{pageName}}</h1>
+
+<ul>
+  <li *ngFor="let version of versions">
+    <a routerLink="/wiki/{{webName}}/{{pageName}}/versions/{{version.hash}}">{{version.hash}}</a>
+  </li>
+</ul>

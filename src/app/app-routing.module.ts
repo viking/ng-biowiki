@@ -6,6 +6,8 @@ import { PageComponent } from './page/page.component';
 import { PageFormComponent } from './page-form/page-form.component';
 import { AttachmentsComponent } from './attachments/attachments.component';
 import { AttachmentFormComponent } from './attachment-form/attachment-form.component';
+import { PageVersionsComponent } from './page-versions/page-versions.component';
+import { PageVersionComponent } from './page-version/page-version.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/wiki/Main/WebHome', pathMatch: 'full' },
@@ -17,6 +19,8 @@ const routes: Routes = [
       { path: ':pageName/edit', component: PageFormComponent },
       { path: ':pageName/attachments', component: AttachmentsComponent },
       { path: ':pageName/attachments/new', component: AttachmentFormComponent },
+      { path: ':pageName/versions', component: PageVersionsComponent },
+      { path: ':pageName/versions/:versionHash', component: PageVersionComponent }
     ]
   }
 ];
